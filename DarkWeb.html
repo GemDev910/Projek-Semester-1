@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        body {
+            transition: background-color 1s ease, color 1s ease;
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            text-align: center;
+            color: whitesmoke;
+        }
+
+        
+
+        .dark {
+            color: whitesmoke;
+            background-color: black;
+        }
+
+        h1 {
+            font-size: 3em;
+            margin-top: 20px;
+        }
+
+        #search-form {
+            margin-top: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        #search-input {
+            padding: 10px;
+            margin-bottom: 10px;
+            width: 200px;
+            font-size: 1em;
+        }
+
+        #search-btn {
+            padding: 10px 20px;
+            font-size: 1em;
+            cursor: pointer;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+        }
+
+        .dino-img {
+            width: 20%;
+            max-width: 70px;
+            position: fixed;
+            top: 25px;
+            left: 130px;
+        }
+
+        .setting-img {
+            width: 10%;
+            max-width: 50px;
+            position: fixed;
+            top: 20px;
+            right: 40px;
+        }
+        .map-img {
+            width: 20%;
+            max-width: 70px;
+            position: fixed;
+            top: 10px;
+            right: 100px;
+        }
+
+        .camera-img {
+            width: 20%;
+            max-width: 50px;
+            position: fixed;
+            top: 25px;
+            right: 180px;
+        }
+
+        .home-img {
+            width: 10%;
+            max-width: 50px;
+            position: fixed;
+            top: 20px;
+            left: 20px;
+        }
+
+        .reload-img {
+            width: 10%;
+            max-width: 50px;
+            position: fixed;
+            top: 20px;
+            left: 80px;
+        }
+
+      
+
+        .settings-modal {
+            display: none;
+            position: fixed;
+            top: 25%;
+            left: 95%;
+            transform: translate(-50%, -50%);
+            padding: 20px;
+            background-color: black;
+            border: 1px solid #ccc;
+            z-index: 2;
+        }
+
+        .settings-modal.active {
+            display: block;
+        }
+    </style>
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+
+            let darkInfo;
+            if (!localStorage.getItem("dark"))
+                localStorage.setItem("dark", false);
+            darkInfo = JSON.parse(localStorage.getItem("dark"));
+
+            const switchDark = () => {
+                document.querySelector("body").classList.toggle('dark');
+                document.querySelector(".dark-mode-icon").classList.toggle('dark');
+            }
+
+            if (darkInfo) {
+                switchDark();
+            }
+
+            document.querySelector(".btn").addEventListener('click', () => {
+                switchDark();
+                darkInfo = !darkInfo;
+                localStorage.setItem("dark", darkInfo);
+            });
+
+            document.querySelector(".reload-img").addEventListener('click', refreshPage);
+
+            document.querySelector("#settings-btn").addEventListener('click', () => {
+                document.querySelector(".settings-modal").classList.toggle('active');
+                document.getElementById("dark-mode-setting").checked = darkInfo;
+            });
+
+            document.querySelector(".close-btn").addEventListener('click', () => {
+                document.querySelector(".settings-modal").classList.remove('active');
+            });
+
+            document.getElementById("apply-settings").addEventListener('click', () => {
+                darkInfo = document.getElementById("dark-mode-setting").checked;
+                localStorage.setItem("dark", darkInfo);
+                switchDark();
+                document.querySelector(".settings-modal").classList.remove('active');
+            });
+
+        });
+
+        function refreshPage() {
+            // Reload or refresh the page
+            location.reload();
+        }
+    </script>
+    <title>DarkWeb.onion</title>
+</head>
+
+<body>
+    <div class="bottom">
+        <div class="nav-bottom">
+            <a href="DarkWeb.html" class="no-decoration"><img src="Home.png" alt="logo" class="home-img"></a>
+            <a href="#" class="no-decoration"><img src="Reload.jpg" alt="logo" class="reload-img"></a>
+            <a href="GameBox.html" class="no-decoration"><img src="Dino.png" alt="logo" class="dino-img"></a>
+            <a href="Images.html" class="no-decoration"><img src="Camera.png" alt="logo" class="camera-img"></a>
+            <a href="#" class="setting.img" id="settings-btn"><img src="Setting.png" alt="logo" class="setting-img"></a>
+            <a href="Maps.html" class="no-decoration"><img src="Maps.png" alt="logo" class="map-img"></a>
+        </div>
+    </div>
+    <div class="btn">
+        <span class="dark-mode-icon"></span>
+    </div>
+    <img src="DarkWebID.png" alt="Image Description" style="width: 100%; max-width: 400px; margin-top: 20px;">
+    <!-- <h1>DarkWeb!</h1> -->
+    <form id="search-form" action="https://www.google.com/search" method="get" target="_blank">
+        <input type="text" id="search-input" name="q" placeholder="Search...">
+        <button id="search-btn" type="submit">🔎</button>
+    </form>
+    
+    <div class="settings-modal">
+        <label for="dark-mode-setting">Dark Mode:</label>
+        <input type="checkbox" id="dark-mode-setting">
+        <button id="apply-settings">Apply Settings</button>
+        <button class="close-btn">Close</button>
+   
+    </div>
+</body>
+
+<footer style="margin-top: 20px;">
+    <p>&copy; Darkweb. All rights reserved.</p>
+</footer>
+
+</html>
